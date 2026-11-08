@@ -1,5 +1,13 @@
 .section {
-  padding-block: 0 var(--section);
+  /* clear space below the name ribbon so the heading never sits on its rule */
+  padding-block: clamp(3.5rem, 7vw, 6.5rem) var(--section);
+}
+
+/* Phones: the mosaic is left to desktop and tablet. */
+@media (max-width: 767px) {
+  .section {
+    display: none;
+  }
 }
 
 .head {
@@ -34,7 +42,7 @@
 .soon small {
   padding-left: 0.65rem;
   border-left: 1px solid var(--line);
-  font-size: 0.625rem;
+  font-size: var(--fs-micro);
   color: var(--gold);
 }
 
@@ -81,7 +89,7 @@
   gap: 0.6rem;
   background: rgba(74, 20, 36, 0.55);
   color: var(--ivory);
-  font-size: 0.625rem;
+  font-size: var(--fs-micro);
   letter-spacing: 0.24em;
   text-transform: uppercase;
   opacity: 0;

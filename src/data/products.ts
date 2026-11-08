@@ -96,6 +96,7 @@ export const products: Product[] = [
       "Faceted emerald-green stones run in neat rows, held in gold-tone settings with gold bead accents. Wear one stack, or one on each wrist as in our campaign.",
     ],
     details: [
+      "Set of 6 bangles",
       "Emerald-green faceted stones",
       "Gold-tone settings with bead accents",
       "Shown worn as a stack",
@@ -139,13 +140,13 @@ export const products: Product[] = [
     colourId: "purple",
     category: "Stone Bangle Set",
     collectionId: "jugalbandi",
-    shortDescription: "Eight bangles, amethyst answering amber.",
+    shortDescription: "Six bangles, amethyst answering amber.",
     description: [
-      "Jamuni takes its name from the purple of the jamun fruit. Here it meets warm citrine amber in a rhythm of purple, amber, amber, purple, repeated down eight bangles.",
-      "Each bangle carries one colour of faceted stone in gold-tone claws, with gold bead accents, on a glowing magenta inner band. Wear all eight, or split the duet across both wrists.",
+      "Jamuni takes its name from the purple of the jamun fruit. Here it meets warm citrine amber, purple and amber trading places from bangle to bangle across a set of six.",
+      "Each bangle carries one colour of faceted stone in gold-tone claws, with gold bead accents, on a glowing magenta inner band. Wear all six together, or split the duet across both wrists.",
     ],
     details: [
-      "Set of 8 bangles: 4 amethyst-purple, 4 citrine-amber",
+      "Set of 6 bangles in amethyst-purple and citrine-amber",
       "Faceted stones in gold-tone claw settings",
       "Gold bead accents",
       "Magenta inner band",
@@ -194,13 +195,13 @@ export const products: Product[] = [
     colourId: "multi",
     category: "Stone Bangle Set",
     collectionId: "satrang",
-    shortDescription: "Seven bangles of sunlit amber, lime and rose.",
+    shortDescription: "Six bangles of sunlit amber, lime and rose.",
     description: [
-      "Indradhanush, the rainbow, is a stack of seven, one for every colour. Stones drift from amber to lime, rose and deep green within each bangle, catching light like a monsoon afternoon.",
+      "Indradhanush, the rainbow, is a set of six bangles. Stones drift from amber to lime, rose and deep green within each bangle, catching light like a monsoon afternoon.",
       "Faceted stones sit in gold-tone claws, punctuated with gold beads, on a soft olive inner band.",
     ],
     details: [
-      "Set of 7 bangles",
+      "Set of 6 bangles",
       "Multi-tone faceted stones in amber, lime, rose and green",
       "Gold-tone claw settings with bead accents",
       "Olive inner band",

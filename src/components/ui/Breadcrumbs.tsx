@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowLeft } from "@/components/ui/Icon";
 import { site } from "@/data/site";
 import styles from "./Breadcrumbs.module.css";
 
@@ -18,8 +19,17 @@ export function Breadcrumbs({ items }: { items: Crumb[] }) {
       ...(c.href ? { item: new URL(c.href, site.url).toString() } : {}),
     })),
   };
+  // Phones get one clear way back instead of a wrapping trail.
+  const linked = items.slice(0, -1).filter((c) => c.href);
+  const back = linked.find((c) => c.href === "/shop") ?? linked[linked.length - 1];
   return (
     <nav aria-label="Breadcrumb" className={styles.crumbs}>
+      {back?.href && (
+        <Link href={back.href} className={styles.back}>
+          <ArrowLeft aria-hidden />
+          <span>Back to {back.label.toLowerCase()}</span>
+        </Link>
+      )}
       <ol>
         {items.map((c, i) => (
           <li key={c.label}>

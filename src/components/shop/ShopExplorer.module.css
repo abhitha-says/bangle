@@ -117,15 +117,67 @@
   border-color: var(--ink);
 }
 
-@media (max-width: 380px) {
+/* Touch: 40px swatch targets around the same small gem. */
+@media (pointer: coarse) {
   .swatch {
-    width: 1.75rem;
-    height: 1.75rem;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+
+@media (pointer: coarse) and (max-width: 380px) {
+  .swatch {
+    width: 2.3rem;
+    height: 2.3rem;
+  }
+}
+
+/* Narrow phones: search is an icon that opens across the bar. */
+@media (max-width: 479px) {
+  .tools {
+    position: relative;
   }
 
-  .swatch span {
-    width: 0.9rem;
-    height: 0.9rem;
+  .search {
+    width: 44px;
+    height: 40px;
+    justify-content: center;
+    border-bottom-color: transparent;
+    cursor: pointer;
+  }
+
+  .search input {
+    position: absolute;
+    width: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .search svg {
+    width: 18px;
+    height: 18px;
+    color: var(--ink);
+  }
+
+  .search:focus-within,
+  .searchOpen {
+    position: absolute;
+    inset: 0.35rem 0;
+    width: auto;
+    padding: 0 0.25rem;
+    justify-content: flex-start;
+    background: var(--ivory);
+    border-bottom-color: var(--ink);
+    z-index: 2;
+  }
+
+  .search:focus-within input,
+  .searchOpen input {
+    position: static;
+    width: auto;
+    opacity: 1;
+    pointer-events: auto;
+    font-size: 1rem;
   }
 }
 
@@ -154,6 +206,7 @@
 .search input {
   flex: 1;
   min-width: 0;
+  min-height: 40px;
   border: 0;
   background: transparent;
   font-size: 0.875rem;
@@ -199,7 +252,7 @@
 }
 
 .clear {
-  font-size: 0.625rem;
+  font-size: var(--fs-micro);
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--ink);
@@ -224,11 +277,6 @@
   }
 }
 
-@media (max-width: 359px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-}
 
 .cell {
   min-width: 0;
@@ -269,4 +317,14 @@
 
 .emptyTitle em {
   color: var(--wine);
+}
+
+@media (max-width: 899px) {
+  .bar {
+    background: rgba(247, 242, 234, 0.98);
+  }
+
+  .tab {
+    min-width: 2.75rem;
+  }
 }

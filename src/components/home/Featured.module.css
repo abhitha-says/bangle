@@ -50,8 +50,9 @@
   }
 }
 
-@media (max-width: 359px) {
-  .grid {
-    grid-template-columns: 1fr;
+
+@media (max-width: 899px) {
+  .all {
+    min-height: 44px;
   }
 }

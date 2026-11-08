@@ -105,7 +105,7 @@ export function ShopExplorer() {
               })}
             </div>
 
-            <label className={styles.search}>
+            <label className={`${styles.search} ${query ? styles.searchOpen : ""}`}>
               <SearchIcon aria-hidden />
               <span className="sr-only">Search the collection</span>
               <input

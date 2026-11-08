@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useRef, useState, type CSSProperties } from "react";
 import { ArrowRight } from "@/components/ui/Icon";
 import { Reveal } from "@/components/ui/Reveal";
 import { colours } from "@/data/colours";
@@ -22,28 +22,24 @@ const HERO_FOR: Record<ColourId, { img: ProductImage; name: string }> = {
 
 export function ShopByColour() {
   const [active, setActive] = useState(0);
-  const [interacting, setInteracting] = useState(false);
   const section = useRef<HTMLElement>(null);
+  /** Set when a touch has just chosen a new colour, so that tap previews instead of navigating. */
+  const touchPicked = useRef(false);
   const colour = colours[active];
 
-  // Without hover (touch) the room gently cycles through the gems while in view.
-  useEffect(() => {
-    const el = section.current;
-    if (!el) return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const hover = window.matchMedia("(hover: hover)").matches;
-    if (reduce || hover || interacting) return;
-    let timer: ReturnType<typeof setInterval> | undefined;
-    const io = new IntersectionObserver(([e]) => {
-      clearInterval(timer);
-      if (e.isIntersecting) timer = setInterval(() => setActive((a) => (a + 1) % colours.length), 2800);
-    }, { threshold: 0.4 });
-    io.observe(el);
-    return () => {
-      io.disconnect();
-      clearInterval(timer);
-    };
-  }, [interacting]);
+  // Touch screens: touching a colour switches the gem (as hovering does on
+  // desktop); touching the colour already shown opens it in the shop.
+  const onPointerDown = (e: React.PointerEvent, i: number) => {
+    if (e.pointerType === "mouse") return;
+    touchPicked.current = i !== active;
+    if (i !== active) setActive(i);
+  };
+  const onClick = (e: React.MouseEvent) => {
+    if (touchPicked.current) {
+      e.preventDefault();
+      touchPicked.current = false;
+    }
+  };
 
   return (
     <section
@@ -55,13 +51,13 @@ export function ShopByColour() {
     >
       <div className={`container ${styles.grid}`}>
         <div className={styles.listCol}>
-          <Reveal>
+          <Reveal className={styles.kicker}>
             <p className="eyebrow">Shop by colour</p>
           </Reveal>
           <Reveal as="h2" id="colour-title" className={`display h-lg ${styles.title}`} index={1}>
             Choose your <em>shade</em>
           </Reveal>
-          <ul className={styles.list} onMouseLeave={() => setInteracting(false)}>
+          <ul className={styles.list}>
             {colours.map((c, i) => {
               const count = filterProducts({ colour: c.id }).length;
               return (
@@ -69,14 +65,10 @@ export function ShopByColour() {
                   <Link
                     href={`/shop?colour=${c.id}`}
                     className={`${styles.row} ${i === active ? styles.rowOn : ""}`}
-                    onMouseEnter={() => {
-                      setInteracting(true);
-                      setActive(i);
-                    }}
-                    onFocus={() => {
-                      setInteracting(true);
-                      setActive(i);
-                    }}
+                    onMouseEnter={() => setActive(i)}
+                    onFocus={() => setActive(i)}
+                    onPointerDown={(e) => onPointerDown(e, i)}
+                    onClick={onClick}
                   >
                     <span className={styles.gem} style={{ background: c.swatch }} aria-hidden />
                     <span className={styles.hindi}>{c.hindi}</span>
@@ -90,6 +82,7 @@ export function ShopByColour() {
               );
             })}
           </ul>
+          <p className={styles.touchHint}>Touch a colour to see it · touch again to explore</p>
         </div>
 
         <div className={styles.stage} aria-hidden>

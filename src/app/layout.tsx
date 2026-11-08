@@ -3,13 +3,14 @@ import { Cormorant_Garamond, Jost } from "next/font/google";
 import { BackToTop } from "@/components/layout/BackToTop";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { TouchFeedback } from "@/components/ui/TouchFeedback";
 import { HERO_POSTER } from "@/data/images";
 import { site } from "@/data/site";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
+  weight: ["300", "400"],
   style: ["normal", "italic"],
   variable: "--font-cormorant",
   display: "swap",
@@ -17,7 +18,7 @@ const cormorant = Cormorant_Garamond({
 
 const jost = Jost({
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
+  weight: ["300", "400"],
   variable: "--font-jost",
   display: "swap",
 });
@@ -62,8 +63,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     slogan: site.tagline,
     url: site.url,
   };
+  // data-scroll-behavior: new pages open at the top instantly (Next 16 no
+  // longer suspends smooth scrolling during navigation by itself).
   return (
-    <html lang="en-IN" className={`${cormorant.variable} ${jost.variable}`}>
+    <html lang="en-IN" className={`${cormorant.variable} ${jost.variable}`} data-scroll-behavior="smooth">
       <body>
         <Header />
         <main id="main" tabIndex={-1}>
@@ -71,6 +74,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </main>
         <Footer />
         <BackToTop />
+        <TouchFeedback />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
       </body>
     </html>

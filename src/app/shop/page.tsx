@@ -40,8 +40,10 @@ export default function ShopPage() {
               The <em>Collection</em>
             </h1>
             <p className={styles.intro}>
-              Jewel-toned bangle sets, photographed exactly as they are. Hover for a second view, or swipe on your phone,
-              then contact the seller about any piece you love.
+              Jewel-toned bangle sets, photographed exactly as they are.{" "}
+              <span className={styles.hoverHint}>Hover for a second view, or swipe on your phone,</span>
+              <span className={styles.touchHint}>Swipe a photograph for a second view,</span> then contact the seller about any
+              piece you love.
             </p>
           </div>
         </div>

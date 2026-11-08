@@ -1,0 +1,50 @@
+.indicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: var(--max);
+  margin: 0.5rem auto 0;
+  padding-inline: var(--gutter);
+}
+
+@media (min-width: 900px) {
+  .indicator {
+    display: none;
+  }
+}
+
+.dashes {
+  display: flex;
+  gap: 0.15rem;
+  margin-left: -0.5rem;
+}
+
+.dashes button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+}
+
+.dashes i {
+  width: 22px;
+  height: 2px;
+  background: var(--line-strong);
+  transition:
+    width 0.4s var(--ease),
+    background-color 0.4s var(--ease);
+}
+
+.dashes .on i {
+  width: 34px;
+  background: var(--ink);
+}
+
+.count {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}

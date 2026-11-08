@@ -25,10 +25,15 @@
   --sans: var(--font-jost), "Jost", "Helvetica Neue", Arial, sans-serif;
 
   /* Rhythm */
-  --gutter: clamp(1.25rem, 4vw, 4rem);
+  /* side padding never sits under a notch or rounded corner */
+  --gutter: max(clamp(1.25rem, 4vw, 4rem), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
   --max: 1440px;
   --section: clamp(5rem, 11vw, 10rem);
-  --header-h: 72px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  /* smallest label sizes: as designed on desktop, one step up on touch-size screens */
+  --fs-micro: 0.625rem;
+  --fs-nano: 0.5625rem;
+  --header-h: calc(72px + var(--safe-top));
 
   /* Motion */
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -41,7 +46,14 @@
 
 @media (max-width: 720px) {
   :root {
-    --header-h: 60px;
+    --header-h: calc(60px + var(--safe-top));
+  }
+}
+
+@media (max-width: 899px) {
+  :root {
+    --fs-micro: 0.6875rem;
+    --fs-nano: 0.625rem;
   }
 }
 
@@ -141,6 +153,15 @@ ol {
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--muted);
+}
+
+@media (max-width: 899px) {
+  h1,
+  h2,
+  h3,
+  .display {
+    text-wrap: balance;
+  }
 }
 
 .display {
@@ -296,6 +317,29 @@ ol {
 .btn:focus-visible:not([aria-disabled="true"]) {
   color: var(--btn-fill-fg);
   border-color: var(--btn-fill);
+}
+
+/* Touch: the same fill as hover, played on press (see TouchFeedback). */
+.btn.is-tapped:not([aria-disabled="true"])::before {
+  transform: scaleY(1);
+}
+
+.btn.is-tapped:not([aria-disabled="true"]) {
+  color: var(--btn-fill-fg);
+  border-color: var(--btn-fill);
+}
+
+.btn.is-tapped .arrow {
+  transform: translateX(4px);
+}
+
+.link-line.is-tapped::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+.link-line--always.is-tapped::after {
+  animation: line-redraw 0.9s var(--ease-out);
 }
 
 .btn--light {

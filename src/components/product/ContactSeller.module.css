@@ -24,7 +24,7 @@
   padding: 0.35rem 0.7rem;
   border: 1px solid var(--gold);
   border-radius: 999px;
-  font-size: 0.5625rem;
+  font-size: 0.6875rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--wine);
@@ -51,7 +51,7 @@
 
 .soon small {
   margin-left: auto;
-  font-size: 0.5625rem;
+  font-size: var(--fs-nano);
   letter-spacing: 0.2em;
   color: var(--wine);
 }
@@ -71,5 +71,12 @@
   .actions :global(.btn) {
     padding-inline: 1rem;
     letter-spacing: 0.18em;
+  }
+}
+
+/* the narrowest phones: just "Instagram" / "Email", on one line */
+@media (max-width: 379px) {
+  .long {
+    display: none;
   }
 }

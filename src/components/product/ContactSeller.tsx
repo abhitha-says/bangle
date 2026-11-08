@@ -29,21 +29,33 @@ export function ContactSeller({ product }: { product: Product }) {
       <div className={styles.actions}>
         {links.instagram ? (
           <a href={links.instagram} target="_blank" rel="noopener noreferrer" className="btn btn--solid btn--block">
-            <InstagramIcon /> Contact on Instagram
+            <InstagramIcon />
+            <span>
+              <span className={styles.long}>Contact on </span>Instagram
+            </span>
           </a>
         ) : (
           <span className={`btn btn--block ${styles.soon}`} aria-disabled="true" role="link">
-            <InstagramIcon /> Contact on Instagram
+            <InstagramIcon />
+            <span>
+              <span className={styles.long}>Contact on </span>Instagram
+            </span>
             <small>Coming soon</small>
           </span>
         )}
         {links.email ? (
           <a href={links.email} className="btn btn--block">
-            <MailIcon /> Email Seller
+            <MailIcon />
+            <span>
+              Email<span className={styles.long}> Seller</span>
+            </span>
           </a>
         ) : (
           <span className={`btn btn--block ${styles.soon}`} aria-disabled="true" role="link">
-            <MailIcon /> Email Seller
+            <MailIcon />
+            <span>
+              Email<span className={styles.long}> Seller</span>
+            </span>
             <small>Coming soon</small>
           </span>
         )}

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
+import { SwipeRail } from "@/components/ui/SwipeRail";
 import { ArrowRight } from "@/components/ui/Icon";
 import { collections, productsInCollection } from "@/lib/catalog";
 import styles from "./Collections.module.css";
@@ -22,7 +23,7 @@ export function Collections() {
         </Reveal>
       </div>
 
-      <ol className={styles.rail}>
+      <SwipeRail className={styles.rail} label="Collections">
         {collections.map((c, i) => {
           const count = productsInCollection(c.id).length;
           const cutout = c.cover.kind === "cutout";
@@ -60,7 +61,7 @@ export function Collections() {
             </Reveal>
           );
         })}
-      </ol>
+      </SwipeRail>
 
       <Reveal className={styles.cta}>
         <Link href="/shop" className="btn btn--solid">

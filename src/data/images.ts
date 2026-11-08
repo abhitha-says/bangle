@@ -21,9 +21,9 @@ export const IMG = {
   raniStudio: cutout("rani-pink-studio", "Rani: a stack of six rani-pink stone bangles with gold bead accents"),
   sapphireStudio: cutout("sapphire-blue-studio", "Neelam: a stack of six sapphire-blue stone bangles with gold bead accents"),
   oliveStudio: cutout("olive-green-studio", "Mehendi: a stack of six olive-green stone bangles with gold bead accents"),
-  amethystStudio: cutout("amethyst-citrine-studio", "Jamuni: a stack of eight alternating amethyst-purple and citrine-amber stone bangles"),
+  amethystStudio: cutout("amethyst-citrine-studio", "Jamuni: alternating amethyst-purple and citrine-amber stone bangles with gold bead accents"),
   gradientStudio: cutout("jewel-gradient-studio", "Phulkari: six bangles of stones shading from teal and green to yellow, amber and pink"),
-  rainbowStudio: cutout("rainbow-studio", "Indradhanush: seven bangles of stones shading through amber, lime, rose and green"),
+  rainbowStudio: cutout("rainbow-studio", "Indradhanush: bangles of stones shading through amber, lime, rose and green"),
 
   rubyStyled: {
     src: `${P}/ruby-red-styled.jpg`,

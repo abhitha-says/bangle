@@ -56,7 +56,7 @@
 @media (max-width: 899px) {
   .rail {
     grid-auto-flow: column;
-    grid-auto-columns: min(78vw, 22rem);
+    grid-auto-columns: min(74vw, 22rem);
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-padding-inline: var(--gutter);
@@ -69,7 +69,27 @@
   }
 
   .item {
-    scroll-snap-align: start;
+    scroll-snap-align: center;
+  }
+
+  .rail {
+    scroll-padding-inline: 0;
+    padding-inline: max(var(--gutter), calc((100vw - min(74vw, 22rem)) / 2));
+  }
+
+  .head {
+    margin-bottom: 2.5rem;
+  }
+
+  .cta {
+    margin-top: 2rem;
+  }
+
+  .desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }
 
@@ -157,7 +177,7 @@
   align-items: center;
   gap: 0.6rem;
   margin-top: 1.25rem;
-  font-size: 0.625rem;
+  font-size: var(--fs-micro);
   letter-spacing: 0.24em;
   text-transform: uppercase;
 }
@@ -187,4 +207,23 @@
 
 .arch:global(.studio) img {
   z-index: 1;
+}
+
+/* Phones held sideways: arches sized to the short screen. */
+@media (max-width: 899px) and (max-height: 500px) {
+  .rail {
+    grid-auto-columns: min(36vw, 15rem);
+    padding-inline: max(var(--gutter), calc((100vw - min(36vw, 15rem)) / 2));
+  }
+}
+
+/* Desktop: less empty space at the top of the section; the design is unchanged. */
+@media (min-width: 900px) {
+  .section {
+    padding-top: calc(clamp(3rem, 5vw, 5.5rem) + 2vh);
+  }
+
+  .head {
+    margin-bottom: clamp(2rem, 3.5vw, 3.25rem);
+  }
 }

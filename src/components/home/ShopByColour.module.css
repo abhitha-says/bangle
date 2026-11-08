@@ -65,7 +65,7 @@
 .hindi {
   grid-area: hindi;
   display: none;
-  font-size: 0.625rem;
+  font-size: var(--fs-micro);
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--muted);
@@ -203,5 +203,68 @@
   from {
     opacity: 0;
     transform: translateY(8px);
+  }
+}
+
+/* Phones and portrait tablets: title, then the gem, then the list. */
+@media (max-width: 1023px) {
+  .section {
+    padding-block: clamp(3.5rem, 12vw, 5rem);
+  }
+
+  .grid {
+    gap: 0;
+  }
+
+  .listCol {
+    display: contents;
+  }
+
+  .kicker {
+    order: 1;
+    text-align: center;
+  }
+
+  .title {
+    order: 2;
+    margin-top: 0.6rem;
+    text-align: center;
+  }
+
+  .stage {
+    order: 3;
+    width: min(58vw, 18rem);
+    margin-block: 1rem 2.25rem;
+  }
+
+  .list {
+    order: 4;
+    margin-top: 0;
+  }
+
+  .row {
+    padding-block: 0.8rem;
+  }
+
+  .name {
+    font-size: 1.45rem;
+  }
+}
+
+/* Touch screens only: how the colour list works. */
+.touchHint {
+  display: none;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .touchHint {
+    display: block;
+    order: 5;
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
   }
 }
