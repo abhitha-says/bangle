@@ -17,8 +17,10 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  transform: translate3d(0, calc(var(--p) * 18%), 0) scale(calc(1 + var(--p) * 0.06));
-  transform-origin: 50% 40%;
+  /* The hero stays pinned while the collection rises over it, so the film
+     only ever scales up: it can never slide and uncover the frame's edge. */
+  transform: scale(calc(1 + var(--p) * 0.08));
+  transform-origin: 50% 50%;
   will-change: transform;
 }
 
