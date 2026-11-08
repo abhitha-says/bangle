@@ -88,6 +88,6 @@ Playback rules:
 
 - The film pauses when it is off-screen or the tab is hidden.
 - With `prefers-reduced-motion` it does not play.
-- A small pause/play control is provided for accessibility (WCAG 2.2.2).
+- There is no on-screen pause control; the film is decorative, muted and `aria-hidden`.
 
 To re-create every variant from the master film and poster, run `scripts/encode_hero.sh`. The shot-by-shot crop positions are documented inside the script.

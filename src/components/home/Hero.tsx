@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
-import { ArrowRight, PauseIcon, PlayIcon } from "@/components/ui/Icon";
+import { ArrowRight } from "@/components/ui/Icon";
 import { site } from "@/data/site";
 import styles from "./Hero.module.css";
 
@@ -81,13 +81,10 @@ export function Hero() {
     () => false,
   );
   const [playing, setPlaying] = useState(false);
-  /** The visitor's explicit choice overrides everything else. */
-  const [choice, setChoice] = useState<"play" | "pause" | null>(null);
-  /** The browser refused autoplay (e.g. iOS low-power mode). */
+  /** The browser refused autoplay (e.g. iOS low-power mode): the poster stays. */
   const [blocked, setBlocked] = useState(false);
   const saveData = useSyncExternalStore(noop, isLowData, () => false) && (cut === "phone" || cut === "portrait");
-  const shouldPlay = choice === "play" || (choice === null && !reduceMotion && !blocked && !saveData);
-  const canAutoplay = !reduceMotion && !blocked && !saveData;
+  const shouldPlay = !reduceMotion && !blocked && !saveData;
   const visible = useRef(true);
 
   const tryPlay = useCallback(() => {
@@ -179,19 +176,6 @@ export function Hero() {
     };
   }, []);
 
-  const toggle = () => {
-    const v = video.current;
-    if (!v) return;
-    if (v.paused) {
-      setChoice("play");
-      v.muted = true;
-      v.play().catch((err: DOMException) => err?.name === "NotAllowedError" && setChoice("pause"));
-    } else {
-      setChoice("pause");
-      v.pause();
-    }
-  };
-
   return (
     <section ref={section} className={styles.hero} aria-label="VIIRAA, The Art of Adornment">
       <div className={styles.media}>
@@ -255,16 +239,6 @@ export function Hero() {
           <span>Scroll</span>
           <i aria-hidden />
         </a>
-        <button
-          type="button"
-          className={styles.toggle}
-          onClick={toggle}
-          aria-label={playing ? "Pause the film" : "Play the film"}
-          aria-pressed={!playing}
-          data-hint={!canAutoplay && !playing ? "Play film" : undefined}
-        >
-          {playing ? <PauseIcon /> : <PlayIcon />}
-        </button>
       </div>
     </section>
   );

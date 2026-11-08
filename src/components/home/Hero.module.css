@@ -222,49 +222,6 @@
   }
 }
 
-.toggle {
-  position: absolute;
-  right: var(--gutter);
-  bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1px solid rgba(247, 242, 234, 0.3);
-  color: var(--ivory);
-  opacity: 0.6;
-  pointer-events: auto;
-  transition:
-    opacity 0.4s var(--ease),
-    border-color 0.4s var(--ease);
-}
-
-.toggle:hover,
-.toggle:focus-visible {
-  opacity: 1;
-  border-color: var(--ivory);
-}
-
-.toggle svg {
-  width: 14px;
-  height: 14px;
-}
-
-/* When autoplay isn't possible, the control introduces itself. */
-.toggle[data-hint] {
-  opacity: 1;
-}
-
-.toggle[data-hint]::after {
-  content: attr(data-hint);
-  position: absolute;
-  right: calc(100% + 0.75rem);
-  white-space: nowrap;
-  font-size: var(--fs-micro);
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-}
 
 /* Landscape screens: an editorial lower-left composition keeps the centre of
    the frame, where the film places the jewellery, clear of type. */
@@ -377,10 +334,6 @@
   /* no scroll cue on phones: the screen itself invites the swipe */
   .scroll {
     display: none;
-  }
-
-  .toggle {
-    bottom: calc(0.9rem + env(safe-area-inset-bottom, 0px));
   }
 }
 
