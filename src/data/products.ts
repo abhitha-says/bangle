@@ -30,6 +30,7 @@ export const products: Product[] = [
     ],
     images: {
       primary: IMG.rubyStudio,
+      side: IMG.rubySide,
       secondary: IMG.rubyStyled,
     },
     sellerId: "viiraa-studio",
@@ -55,7 +56,10 @@ export const products: Product[] = [
       "Gold-tone claw settings with bead accents",
       "Pink inner band",
     ],
-    images: { primary: IMG.raniStudio },
+    images: {
+      primary: IMG.raniStudio,
+      side: IMG.raniSide,
+    },
     sellerId: "viiraa-studio",
     keywords: ["magenta", "pink", "rani", "fuchsia", "gulabi"],
   },
@@ -78,7 +82,10 @@ export const products: Product[] = [
       "Gold-tone claw settings with bead accents",
       "Navy inner band",
     ],
-    images: { primary: IMG.sapphireStudio },
+    images: {
+      primary: IMG.sapphireStudio,
+      side: IMG.sapphireSide,
+    },
     sellerId: "viiraa-studio",
     keywords: ["navy", "blue", "sapphire", "neela", "neelam"],
   },
@@ -128,7 +135,10 @@ export const products: Product[] = [
       "Gold-tone claw settings with bead accents",
       "Olive inner band",
     ],
-    images: { primary: IMG.oliveStudio },
+    images: {
+      primary: IMG.oliveStudio,
+      side: IMG.oliveSide,
+    },
     sellerId: "viiraa-studio",
     keywords: ["olive", "green", "mehendi", "mehndi", "peridot", "haldi"],
   },
@@ -153,6 +163,7 @@ export const products: Product[] = [
     ],
     images: {
       primary: IMG.amethystStudio,
+      side: IMG.amethystSide,
       secondary: IMG.amethystStyled,
     },
     sellerId: "viiraa-studio",
@@ -181,6 +192,7 @@ export const products: Product[] = [
     ],
     images: {
       primary: IMG.gradientStudio,
+      side: IMG.gradientSide,
       secondary: IMG.gradientStyled,
     },
     sellerId: "viiraa-studio",
@@ -206,7 +218,10 @@ export const products: Product[] = [
       "Gold-tone claw settings with bead accents",
       "Olive inner band",
     ],
-    images: { primary: IMG.rainbowStudio },
+    images: {
+      primary: IMG.rainbowStudio,
+      side: IMG.rainbowSide,
+    },
     sellerId: "viiraa-studio",
     keywords: ["multicolour", "multicolor", "rainbow", "indradhanush", "yellow", "pink"],
   },

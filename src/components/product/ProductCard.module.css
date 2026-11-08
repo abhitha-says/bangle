@@ -1,11 +1,12 @@
 .card {
-  --rx: 0deg;
-  --ry: 0deg;
-  --mx: 50%;
-  --my: 40%;
   display: flex;
   flex-direction: column;
   min-width: 0;
+}
+
+/* Image area: the link fills it; heart and actions float above it. */
+.media {
+  position: relative;
 }
 
 .mediaLink {
@@ -18,9 +19,6 @@
   aspect-ratio: 3 / 4;
   overflow: hidden;
   background: var(--stone);
-  transform: perspective(1100px) rotateX(var(--rx)) rotateY(var(--ry));
-  transition: transform 0.9s var(--ease-out);
-  transform-style: preserve-3d;
 }
 
 .track {
@@ -35,9 +33,6 @@
 }
 
 .slide img {
-  transition:
-    transform 1.4s var(--ease-out),
-    opacity 0.9s var(--ease);
   user-select: none;
   -webkit-user-drag: none;
 }
@@ -60,88 +55,174 @@
   isolation: isolate;
 }
 
-.secondary {
-  opacity: 0;
-  transition: opacity 0.9s var(--ease);
-}
-
-.secondary img {
-  transform: scale(1.08);
-}
-
-.sheen {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(40% 35% at var(--mx) var(--my), rgba(255, 252, 245, 0.35), transparent 70%);
-  mix-blend-mode: soft-light;
-  opacity: 0;
-  transition: opacity 0.6s var(--ease);
-}
-
 .dots {
   display: none;
 }
 
-.viewHint {
+/* ---- Saved (heart): always visible, top right ---------------------------- */
+.heart {
   position: absolute;
-  left: 0.85rem;
-  bottom: 0.85rem;
-  padding: 0.35rem 0.6rem;
-  font-size: var(--fs-nano);
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--ivory);
-  background: rgba(31, 20, 24, 0.35);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  opacity: 0;
-  transform: translateY(6px);
+  top: 0.4rem;
+  right: 0.4rem;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  color: var(--ink-soft);
   transition:
-    opacity 0.6s var(--ease),
-    transform 0.6s var(--ease-out);
+    color 0.3s var(--ease),
+    transform 0.4s var(--ease-out);
 }
 
-/* ---- Pointer devices: crossfade to the second angle ---------------------- */
+.heart svg {
+  width: 19px;
+  height: 19px;
+}
+
+.heart:hover {
+  color: var(--wine);
+  transform: scale(1.1);
+}
+
+.heartOn {
+  color: var(--wine);
+}
+
+.heartOn svg {
+  animation: heart-pop 0.45s var(--ease-out);
+}
+
+@keyframes heart-pop {
+  40% {
+    transform: scale(1.28);
+  }
+}
+
+/* ---- Similar / Try It ---------------------------------------------------- */
+.actions {
+  position: absolute;
+  right: 0.6rem;
+  bottom: 0.6rem;
+  z-index: 2;
+  display: flex;
+  gap: 0.35rem;
+}
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: 30px;
+  padding: 0 0.7rem;
+  border: 1px solid rgba(168, 134, 90, 0.35);
+  background: rgba(251, 248, 243, 0.94);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  transition:
+    border-color 0.3s var(--ease),
+    background-color 0.3s var(--ease);
+}
+
+.action:hover {
+  border-color: var(--gold);
+  background: #fff;
+}
+
+.action svg {
+  width: 14px;
+  height: 14px;
+}
+
+.actionSwatch {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+}
+
+.tryNote {
+  position: absolute;
+  left: 0.6rem;
+  right: 0.6rem;
+  bottom: 2.9rem;
+  z-index: 3;
+  padding: 0.5rem 0.7rem;
+  background: var(--oxblood);
+  color: var(--ivory);
+  font-size: 0.75rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition:
+    opacity 0.35s var(--ease),
+    transform 0.35s var(--ease-out);
+}
+
+.tryNote:empty {
+  padding: 0;
+}
+
+.tryNoteOn {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- Pointer devices: the set turns to its side view ---------------------
+   As in the reference: the front view slides out to the left while the side
+   view slides in from the right, inside the same frame; the card stays still.
+   Leaving reverses it. */
 @media (hover: hover) and (pointer: fine) {
-  .dual:hover .primary img,
-  .mediaLink:focus-visible .dual .primary img {
-    transform: scale(1.035);
+  .dual .slide {
+    transition: transform 0.55s cubic-bezier(0.65, 0, 0.35, 1);
+    will-change: transform;
+  }
+
+  .dual .alt {
+    transform: translate3d(100%, 0, 0);
+  }
+
+  .media:hover .dual .primary,
+  .mediaLink:focus-visible .dual .primary {
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  .media:hover .dual .alt,
+  .mediaLink:focus-visible .dual .alt {
+    transform: none;
+  }
+
+  .single .primary img {
+    transition: transform 1.2s var(--ease-out);
+  }
+
+  .media:hover .single .primary img {
+    transform: scale(1.05);
+  }
+
+  /* actions rise in with the side view */
+  .actions {
     opacity: 0;
+    transform: translate3d(0, 6px, 0);
+    pointer-events: none;
+    transition:
+      opacity 0.35s var(--ease),
+      transform 0.45s var(--ease-out);
   }
 
-  .dual:hover .secondary,
-  .mediaLink:focus-visible .dual .secondary {
-    opacity: 1;
-  }
-
-  .dual:hover .secondary img,
-  .mediaLink:focus-visible .dual .secondary img {
-    transform: scale(1);
-  }
-
-  .dual:hover .viewHint {
+  .media:hover .actions,
+  .media:focus-within .actions {
     opacity: 1;
     transform: none;
-    transition-delay: 0.25s;
-  }
-
-  .single:hover .primary img,
-  .mediaLink:focus-visible .single .primary img {
-    transform: scale(1.06);
-  }
-
-  .frame:hover .sheen {
-    opacity: 1;
+    pointer-events: auto;
+    transition-delay: 0.12s;
   }
 }
 
 /* ---- Touch devices: swipe between the two views ------------------------- */
 @media (hover: none), (pointer: coarse) {
-  .frame {
-    transform: none;
-  }
-
   .dual .track {
     display: flex;
     overflow-x: auto;
@@ -163,26 +244,17 @@
     scroll-snap-stop: always;
   }
 
-  .dual .secondary {
-    opacity: 1;
-  }
-
-  .dual .secondary img {
-    transform: none;
-  }
-
   .dots {
     position: absolute;
-    left: 50%;
-    bottom: 0.7rem;
+    left: 0.7rem;
+    bottom: 1.1rem;
     display: flex;
     gap: 0.35rem;
-    transform: translateX(-50%);
     pointer-events: none;
   }
 
   .dots i {
-    width: 14px;
+    width: 12px;
     height: 2px;
     background: rgba(31, 20, 24, 0.22);
     transition:
@@ -191,12 +263,52 @@
   }
 
   .dots .dotOn {
-    width: 22px;
+    width: 20px;
     background: var(--ink);
   }
 
-  .mediaLink:active .single .primary img {
-    transform: scale(1.03);
+  /* always-visible, icon-only touch controls */
+  .actions {
+    right: 0.4rem;
+    bottom: 0.4rem;
+    gap: 0.25rem;
+  }
+
+  .action {
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+  }
+
+  .action span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .actionSwatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+  }
+
+  .action svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .tryNote {
+    bottom: 3rem;
+    font-size: 0.6875rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dual .slide {
+    transition: opacity 0.01ms;
   }
 }
 

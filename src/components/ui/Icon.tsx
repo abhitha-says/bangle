@@ -89,3 +89,19 @@ export const ExpandIcon = (p: P) => (
     <path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" />
   </svg>
 );
+
+export const HeartIcon = ({ filled, ...p }: P & { filled?: boolean }) => (
+  <svg viewBox="0 0 24 24" {...base} {...p}>
+    <path
+      d="M12 20.3s-7.6-4.6-7.6-10.1A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.6 2.6c0 5.5-7.6 10.1-7.6 10.1Z"
+      fill={filled ? "currentColor" : "none"}
+    />
+  </svg>
+);
+
+export const CameraIcon = (p: P) => (
+  <svg viewBox="0 0 24 24" {...base} {...p}>
+    <path d="M4 8.5h3l1.6-2.2h6.8L17 8.5h3v10H4z" />
+    <circle cx="12" cy="13.2" r="3.3" />
+  </svg>
+);

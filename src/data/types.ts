@@ -74,6 +74,8 @@ export interface Product {
   details: string[];
   images: {
     primary: ProductImage;
+    /** The same set seen from the side: the card turns to it on hover. */
+    side?: ProductImage;
     secondary?: ProductImage;
     /** Extra gallery views, product page only. */
     gallery?: ProductImage[];

@@ -16,6 +16,15 @@ const cutout = (file: string, alt: string): ProductImage => ({
   label: "Full set",
 });
 
+const side = (file: string, alt: string): ProductImage => ({
+  src: `${P}/${file}.png`,
+  alt,
+  width: 1200,
+  height: 1600,
+  kind: "cutout",
+  label: "Side view",
+});
+
 export const IMG = {
   rubyStudio: cutout("ruby-red-studio", "Sindoor: a stack of six ruby-red stone bangles with gold bead accents"),
   raniStudio: cutout("rani-pink-studio", "Rani: a stack of six rani-pink stone bangles with gold bead accents"),
@@ -24,6 +33,15 @@ export const IMG = {
   amethystStudio: cutout("amethyst-citrine-studio", "Jamuni: alternating amethyst-purple and citrine-amber stone bangles with gold bead accents"),
   gradientStudio: cutout("jewel-gradient-studio", "Phulkari: six bangles of stones shading from teal and green to yellow, amber and pink"),
   rainbowStudio: cutout("rainbow-studio", "Indradhanush: bangles of stones shading through amber, lime, rose and green"),
+
+  // Side views: the same sets, photographed from the side.
+  rubySide: side("ruby-red-side", "Sindoor seen from the side: five ruby-red stone bangles stacked, gold beads along every edge"),
+  raniSide: side("rani-pink-side", "Rani seen from the side: a stack of rani-pink stone bangles beaded in gold"),
+  sapphireSide: side("sapphire-blue-side", "Neelam seen from the side: sapphire-blue stone bangles stacked, with gold bead accents"),
+  oliveSide: side("olive-green-side", "Mehendi seen from the side: olive and peridot stone bangles stacked, beaded in gold"),
+  amethystSide: side("amethyst-citrine-side", "Jamuni seen from the side: amethyst and citrine bangles alternating down the stack"),
+  gradientSide: side("jewel-gradient-side", "Phulkari seen from the side: bangles of emerald, citrine, green, lime, amber and rose"),
+  rainbowSide: side("rainbow-side", "Indradhanush seen from the side: bangles shading from teal and lime through amber to rose"),
 
   rubyStyled: {
     src: `${P}/ruby-red-styled.jpg`,

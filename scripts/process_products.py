@@ -111,3 +111,36 @@ for name, (file, box) in STYLED.items():
         img = img.crop(box)
     img.save(OUT / f"{name}.jpg", quality=92, optimize=True, progressive=True)
     print("styled", name, img.size)
+
+
+# --------------------------------------------------------------------------
+# Side views (supplied 2026-11-08): the same sets photographed from the side.
+# Light studio backgrounds are keyed out like the front shots, then each stack
+# is scaled uniformly to the same width on the 3:4 canvas, never distorted.
+# --------------------------------------------------------------------------
+def place_wide(img: Image.Image, width_share: float = 0.9) -> Image.Image:
+    img = drop_specks(img)
+    bbox = img.getchannel("A").point(lambda v: 255 if v > 24 else 0).getbbox()
+    crop = img.crop(bbox)
+    w, h = crop.size
+    scale = min(CANVAS[0] * width_share / w, CANVAS[1] * 0.8 / h)
+    crop = crop.resize((round(w * scale), round(h * scale)), Image.LANCZOS)
+    canvas = Image.new("RGBA", CANVAS, (0, 0, 0, 0))
+    canvas.alpha_composite(crop, ((CANVAS[0] - crop.width) // 2, (CANVAS[1] - crop.height) // 2))
+    return canvas
+
+
+SIDES = {
+    "ruby-red-side": "Red Gemstone and Gold Stacked Bangles.png",
+    "rani-pink-side": "Ruby Pink Gemstone Bangle Stack.png",
+    "sapphire-blue-side": "Sapphire Blue Bangle Stack with Gold Accents.png",
+    "olive-green-side": "Peridot Gold Stacked Bangle Cuff.png",
+    "amethyst-citrine-side": "Purple and Amber Gemstone Bangle Stack.png",
+    "jewel-gradient-side": "Angled Multi-Stone Bangle Stack.png",
+    "rainbow-side": "Rainbow Gemstone Gold Bangle Stack.png",
+}
+for name, file in SIDES.items():
+    src = Image.open(SRC / "side" / file)
+    img = clean_alpha(src) if src.mode == "RGBA" else key_checkerboard(src)
+    place_wide(img).save(OUT / f"{name}.png", optimize=True)
+    print("side", name)

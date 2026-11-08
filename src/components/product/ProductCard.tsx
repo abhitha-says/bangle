@@ -3,10 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState, type CSSProperties } from "react";
-import { ArrowRight } from "@/components/ui/Icon";
+import { ArrowRight, CameraIcon, HeartIcon } from "@/components/ui/Icon";
 import { colourById } from "@/data/colours";
 import type { Product, ProductImage } from "@/data/types";
 import { collectionName } from "@/lib/catalog";
+import { toggleSaved, useSaved } from "@/lib/saved";
 import styles from "./ProductCard.module.css";
 
 export const CARD_SIZES = "(min-width: 1280px) 24vw, (min-width: 900px) 32vw, (min-width: 360px) 48vw, 92vw";
@@ -38,30 +39,16 @@ interface Props {
 }
 
 export function ProductCard({ product, index = 0, sizes = CARD_SIZES, eager, headingLevel = "h3" }: Props) {
-  const { primary, secondary } = product.images;
-  const frame = useRef<HTMLDivElement>(null);
+  const { primary, side, secondary } = product.images;
+  // The card turns to the side view; pieces without one show their styled photo.
+  const alt = side ?? secondary;
   const [slide, setSlide] = useState(0);
+  const [tryNote, setTryNote] = useState(false);
+  const noteTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const saved = useSaved(product.id);
   const colour = colourById(product.colourId);
   const href = `/shop/${product.slug}`;
   const H = headingLevel;
-
-  // Controlled 3D: a few degrees of tilt and a soft sheen that follows the cursor.
-  const onMove = (e: React.PointerEvent) => {
-    if (e.pointerType !== "mouse" || !frame.current) return;
-    const r = frame.current.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width;
-    const y = (e.clientY - r.top) / r.height;
-    frame.current.style.setProperty("--rx", `${(0.5 - y) * 5}deg`);
-    frame.current.style.setProperty("--ry", `${(x - 0.5) * 6}deg`);
-    frame.current.style.setProperty("--mx", `${x * 100}%`);
-    frame.current.style.setProperty("--my", `${y * 100}%`);
-  };
-  const onLeave = () => {
-    const f = frame.current;
-    if (!f) return;
-    f.style.setProperty("--rx", "0deg");
-    f.style.setProperty("--ry", "0deg");
-  };
 
   // Touch: the two views sit side by side in a snap track.
   const onTrackScroll = (e: React.UIEvent<HTMLDivElement>) => {
@@ -69,29 +56,55 @@ export function ProductCard({ product, index = 0, sizes = CARD_SIZES, eager, hea
     setSlide(Math.round(t.scrollLeft / Math.max(1, t.clientWidth)));
   };
 
+  // Virtual try-on is not built yet: say so plainly instead of a dead button.
+  const onTry = () => {
+    setTryNote(true);
+    clearTimeout(noteTimer.current);
+    noteTimer.current = setTimeout(() => setTryNote(false), 2600);
+  };
+
   return (
     <article className={styles.card} style={{ "--i": index } as CSSProperties}>
-      <Link href={href} className={styles.mediaLink} aria-label={`${product.name}, ${product.colour}`} draggable={false}>
-        <div
-          ref={frame}
-          className={`${styles.frame} ${secondary ? styles.dual : styles.single}`}
-          onPointerMove={onMove}
-          onPointerLeave={onLeave}
-        >
-          <div className={styles.track} onScroll={secondary ? onTrackScroll : undefined}>
-            <Slide img={primary} className={styles.primary} sizes={sizes} eager={eager} />
-            {secondary && <Slide img={secondary} className={styles.secondary} sizes={sizes} />}
+      <div className={styles.media}>
+        <Link href={href} className={styles.mediaLink} aria-label={`${product.name}, ${product.colour}`} draggable={false}>
+          <div className={`${styles.frame} ${alt ? styles.dual : styles.single}`}>
+            <div className={styles.track} onScroll={alt ? onTrackScroll : undefined}>
+              <Slide img={primary} className={styles.primary} sizes={sizes} eager={eager} />
+              {alt && <Slide img={alt} className={styles.alt} sizes={sizes} />}
+            </div>
+            {alt && (
+              <span className={styles.dots} aria-hidden>
+                <i className={slide === 0 ? styles.dotOn : ""} />
+                <i className={slide === 1 ? styles.dotOn : ""} />
+              </span>
+            )}
           </div>
-          <span className={styles.sheen} aria-hidden />
-          {secondary && (
-            <span className={styles.dots} aria-hidden>
-              <i className={slide === 0 ? styles.dotOn : ""} />
-              <i className={slide === 1 ? styles.dotOn : ""} />
-            </span>
-          )}
-          {secondary && <span className={styles.viewHint} aria-hidden>{secondary.label ?? "Second view"}</span>}
+        </Link>
+
+        <button
+          type="button"
+          className={`${styles.heart} ${saved ? styles.heartOn : ""}`}
+          aria-pressed={saved}
+          aria-label={saved ? `Remove ${product.name} from saved pieces` : `Save ${product.name}`}
+          onClick={() => toggleSaved(product.id)}
+        >
+          <HeartIcon filled={saved} />
+        </button>
+
+        <div className={styles.actions}>
+          <Link href={`/shop?colour=${product.colourId}`} className={styles.action} aria-label={`Pieces similar to ${product.name}`}>
+            <i className={styles.actionSwatch} style={{ background: colour.swatch }} aria-hidden />
+            <span>Similar</span>
+          </Link>
+          <button type="button" className={styles.action} onClick={onTry} aria-label={`Try ${product.name} on`}>
+            <CameraIcon aria-hidden />
+            <span>Try It</span>
+          </button>
         </div>
-      </Link>
+        <p className={`${styles.tryNote} ${tryNote ? styles.tryNoteOn : ""}`} role="status" aria-live="polite">
+          {tryNote ? "Virtual try-on is coming soon" : ""}
+        </p>
+      </div>
 
       <div className={styles.info}>
         <p className={styles.meta}>

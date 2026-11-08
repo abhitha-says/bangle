@@ -41,8 +41,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 /** Gallery views use only the supplied photographs; "Detail" is a CSS zoom. */
 function viewsFor(p: Product): GalleryView[] {
-  const { primary, secondary, gallery = [] } = p.images;
+  const { primary, side, secondary, gallery = [] } = p.images;
   const views: GalleryView[] = [{ img: primary, label: primary.label ?? "Full set" }];
+  if (side) views.push({ img: side, label: side.label ?? "Side view" });
   if (secondary) views.push({ img: secondary, label: secondary.label ?? "Styled" });
   gallery.forEach((g) => views.push({ img: g, label: g.label ?? "View" }));
   views.push({
