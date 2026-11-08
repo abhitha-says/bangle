@@ -80,14 +80,17 @@
 @media (max-width: 1023px) {
   .stage {
     margin-inline: calc(var(--gutter) * -1);
-    /* short phones: keep the name and colour on the first screen */
-    max-height: 60svh;
+    /* Edge to edge, always: when the screen is too short for a 4:5 frame the
+       height gives way, never the width, so no strip opens beside the photo.
+       60svh keeps the name and colour on the first screen of short phones. */
+    aspect-ratio: auto;
+    height: min(125vw, 60svh);
   }
 }
 
 @media (max-width: 1023px) and (max-height: 700px) {
   .stage {
-    max-height: 54svh;
+    height: min(125vw, 54svh);
   }
 }
 
@@ -102,6 +105,9 @@
   position: absolute;
   inset: 0;
   outline: none;
+  /* Only the page scrolls: a finger on the photo pans vertically, and a
+     sideways swipe is read in Gallery.tsx rather than by the browser. */
+  touch-action: pan-y pinch-zoom;
 }
 
 .view {
@@ -133,35 +139,6 @@
 @media (hover: hover) and (pointer: fine) {
   .open:hover img {
     transform: scale(1.025);
-  }
-}
-
-/* Touch: native swipe between views */
-@media (hover: none), (pointer: coarse), (max-width: 1023px) {
-  .track {
-    display: flex;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    overscroll-behavior-x: contain;
-  }
-
-  .track::-webkit-scrollbar {
-    display: none;
-  }
-
-  .view {
-    position: relative;
-    flex: 0 0 100%;
-    opacity: 1;
-    visibility: visible;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-  }
-
-  .view:not(.viewOn) img {
-    transform: none;
   }
 }
 

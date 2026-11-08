@@ -44,21 +44,25 @@ export function Gallery({ views, name }: { views: GalleryView[]; name: string })
   const track = useRef<HTMLDivElement>(null);
   const sizes = "(min-width: 1024px) 52vw, 100vw";
 
-  const go = useCallback(
-    (i: number) => {
-      const n = (i + views.length) % views.length;
-      setActive(n);
-      const t = track.current;
-      if (t && t.scrollWidth > t.clientWidth) t.scrollTo({ left: n * t.clientWidth, behavior: "smooth" });
-    },
-    [views.length],
-  );
+  const go = useCallback((i: number) => setActive((i + views.length) % views.length), [views.length]);
 
-  const onTrackScroll = () => {
-    const t = track.current;
-    if (!t || t.scrollWidth <= t.clientWidth) return;
-    const i = Math.round(t.scrollLeft / t.clientWidth);
-    if (i !== active) setActive(i);
+  // The stage never scrolls on its own: a vertical gesture always moves the
+  // page (touch-action: pan-y). A clearly sideways swipe changes the view.
+  const swipe = useRef<{ id: number; x: number; y: number } | null>(null);
+  const onPointerDown = (e: React.PointerEvent) => {
+    if (e.pointerType === "mouse" || views.length < 2) return;
+    swipe.current = { id: e.pointerId, x: e.clientX, y: e.clientY };
+  };
+  const onPointerUp = (e: React.PointerEvent) => {
+    const s = swipe.current;
+    swipe.current = null;
+    if (!s || s.id !== e.pointerId) return;
+    const dx = e.clientX - s.x;
+    const dy = e.clientY - s.y;
+    if (Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(dy) * 1.5) go(dx < 0 ? active + 1 : active - 1);
+  };
+  const onPointerCancel = () => {
+    swipe.current = null;
   };
 
   const onKey = (e: React.KeyboardEvent) => {
@@ -100,7 +104,16 @@ export function Gallery({ views, name }: { views: GalleryView[]; name: string })
       )}
 
       <div className={styles.stage}>
-        <div ref={track} className={styles.track} onScroll={onTrackScroll} tabIndex={0} aria-roledescription="carousel" aria-label={`${name} photographs`}>
+        <div
+          ref={track}
+          className={styles.track}
+          tabIndex={0}
+          aria-roledescription="carousel"
+          aria-label={`${name} photographs`}
+          onPointerDown={onPointerDown}
+          onPointerUp={onPointerUp}
+          onPointerCancel={onPointerCancel}
+        >
           {views.map((v, i) => (
             <figure
               key={i}
