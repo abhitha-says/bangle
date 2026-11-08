@@ -1,0 +1,314 @@
+.card {
+  --rx: 0deg;
+  --ry: 0deg;
+  --mx: 50%;
+  --my: 40%;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mediaLink {
+  display: block;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.frame {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--stone);
+  transform: perspective(1100px) rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.9s var(--ease-out);
+  transform-style: preserve-3d;
+}
+
+.track {
+  position: absolute;
+  inset: 0;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.slide img {
+  transition:
+    transform 1.4s var(--ease-out),
+    opacity 0.9s var(--ease);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Soft contact shadow under every cutout so it sits on the "table". */
+.slide:global(.studio)::after {
+  content: "";
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  bottom: 7.5%;
+  height: 3.5%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(31, 20, 24, 0.22), transparent);
+  filter: blur(4px);
+  z-index: -1;
+}
+
+.slide:global(.studio) {
+  isolation: isolate;
+}
+
+.secondary {
+  opacity: 0;
+  transition: opacity 0.9s var(--ease);
+}
+
+.secondary img {
+  transform: scale(1.08);
+}
+
+.sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(40% 35% at var(--mx) var(--my), rgba(255, 252, 245, 0.35), transparent 70%);
+  mix-blend-mode: soft-light;
+  opacity: 0;
+  transition: opacity 0.6s var(--ease);
+}
+
+.dots {
+  display: none;
+}
+
+.viewHint {
+  position: absolute;
+  left: 0.85rem;
+  bottom: 0.85rem;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.5625rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ivory);
+  background: rgba(31, 20, 24, 0.35);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.6s var(--ease),
+    transform 0.6s var(--ease-out);
+}
+
+/* ---- Pointer devices: crossfade to the second angle ---------------------- */
+@media (hover: hover) and (pointer: fine) {
+  .dual:hover .primary img,
+  .mediaLink:focus-visible .dual .primary img {
+    transform: scale(1.035);
+    opacity: 0;
+  }
+
+  .dual:hover .secondary,
+  .mediaLink:focus-visible .dual .secondary {
+    opacity: 1;
+  }
+
+  .dual:hover .secondary img,
+  .mediaLink:focus-visible .dual .secondary img {
+    transform: scale(1);
+  }
+
+  .dual:hover .viewHint {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0.25s;
+  }
+
+  .single:hover .primary img,
+  .mediaLink:focus-visible .single .primary img {
+    transform: scale(1.06);
+  }
+
+  .frame:hover .sheen {
+    opacity: 1;
+  }
+}
+
+/* ---- Touch devices: swipe between the two views ------------------------- */
+@media (hover: none), (pointer: coarse) {
+  .frame {
+    transform: none;
+  }
+
+  .dual .track {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .dual .track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .dual .slide {
+    position: relative;
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .dual .secondary {
+    opacity: 1;
+  }
+
+  .dual .secondary img {
+    transform: none;
+  }
+
+  .dots {
+    position: absolute;
+    left: 50%;
+    bottom: 0.7rem;
+    display: flex;
+    gap: 0.35rem;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .dots i {
+    width: 14px;
+    height: 2px;
+    background: rgba(31, 20, 24, 0.22);
+    transition:
+      background-color 0.4s var(--ease),
+      width 0.4s var(--ease);
+  }
+
+  .dots .dotOn {
+    width: 22px;
+    background: var(--ink);
+  }
+
+  .mediaLink:active .single .primary img {
+    transform: scale(1.03);
+  }
+}
+
+/* ---- Text --------------------------------------------------------------- */
+.info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-top: clamp(0.85rem, 1.6vw, 1.25rem);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.15rem 0.5rem;
+  font-size: 0.625rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.sep {
+  width: 0.75rem;
+  height: 1px;
+  background: var(--line-strong);
+}
+
+.name {
+  margin-top: 0.35rem;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(1.45rem, 2vw, 1.85rem);
+  line-height: 1.1;
+}
+
+.name a {
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: background-size 0.6s var(--ease-out);
+}
+
+.name a:hover {
+  background-size: 100% 1px;
+}
+
+.colour {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+  font-size: 0.8125rem;
+  color: var(--ink-soft);
+}
+
+.colour i {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--ivory), 0 0 0 3px var(--line);
+}
+
+.desc {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: flex-start;
+  margin-top: auto;
+  padding-top: 0.9rem;
+  min-height: 44px;
+  font-size: 0.625rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--wine);
+}
+
+.cta svg {
+  width: 13px;
+  height: 13px;
+  transition: transform 0.5s var(--ease-out);
+}
+
+.cta:hover svg {
+  transform: translateX(4px);
+}
+
+@media (max-width: 599px) {
+  .name {
+    font-size: 1.3rem;
+  }
+
+  .meta span:last-child,
+  .sep {
+    display: none;
+  }
+
+  .desc {
+    font-size: 0.8125rem;
+  }
+
+  .colour {
+    font-size: 0.75rem;
+  }
+}

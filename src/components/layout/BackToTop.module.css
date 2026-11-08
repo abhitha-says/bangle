@@ -1,0 +1,59 @@
+.btn {
+  position: fixed;
+  right: clamp(1rem, 2.5vw, 2rem);
+  bottom: calc(clamp(1rem, 2.5vw, 2rem) + env(safe-area-inset-bottom, 0px) + var(--btt-offset, 0px));
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(247, 242, 234, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 10px 30px -12px rgba(31, 20, 24, 0.35);
+  opacity: 0;
+  transform: translateY(16px) scale(0.9);
+  pointer-events: none;
+  transition:
+    opacity 0.5s var(--ease),
+    transform 0.6s var(--ease-out),
+    bottom 0.4s var(--ease);
+}
+
+.show {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+
+.track,
+.progress {
+  fill: none;
+  stroke-width: 1;
+}
+
+.track {
+  stroke: var(--line);
+}
+
+.progress {
+  stroke: var(--wine);
+  transition: stroke-dashoffset 0.15s linear;
+}
+
+.arrow {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.5s var(--ease-out);
+}
+
+.btn:hover .arrow {
+  transform: translateY(-3px);
+}

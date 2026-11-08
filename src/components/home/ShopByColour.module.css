@@ -1,0 +1,207 @@
+.section {
+  position: relative;
+  padding-block: var(--section);
+  background: var(--wash);
+  transition: background-color 1.2s var(--ease);
+  overflow: hidden;
+}
+
+.grid {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.title {
+  margin-top: 1rem;
+}
+
+.title em {
+  color: var(--wine);
+}
+
+.list {
+  margin-top: clamp(2rem, 4vw, 3rem);
+  border-top: 1px solid var(--line);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  grid-template-areas: "gem name count arrow";
+  align-items: center;
+  gap: 0 1.1rem;
+  padding: 1.05rem 0.25rem;
+  border-bottom: 1px solid var(--line);
+  transition:
+    padding 0.6s var(--ease-out),
+    color 0.4s var(--ease);
+}
+
+@media (min-width: 640px) {
+  .row {
+    grid-template-columns: auto 6.5rem 1fr auto auto;
+    grid-template-areas: "gem hindi name count arrow";
+  }
+}
+
+.gem {
+  grid-area: gem;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 50%;
+  box-shadow:
+    inset 0 -3px 6px rgba(0, 0, 0, 0.25),
+    inset 0 2px 3px rgba(255, 255, 255, 0.35);
+  transition: transform 0.6s var(--ease-out);
+}
+
+.hindi {
+  grid-area: hindi;
+  display: none;
+  font-size: 0.625rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+@media (min-width: 640px) {
+  .hindi {
+    display: block;
+  }
+}
+
+.name {
+  grid-area: name;
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+  line-height: 1.1;
+  transition:
+    transform 0.6s var(--ease-out),
+    font-style 0s;
+}
+
+.count {
+  grid-area: count;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.arrow {
+  grid-area: arrow;
+  width: 15px;
+  height: 15px;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition:
+    opacity 0.4s var(--ease),
+    transform 0.5s var(--ease-out);
+}
+
+.rowOn .gem {
+  transform: scale(1.35);
+}
+
+.rowOn .name {
+  font-style: italic;
+  transform: translateX(0.35rem);
+}
+
+.rowOn .arrow {
+  opacity: 1;
+  transform: none;
+}
+
+.stage {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  width: min(100%, 30rem);
+  justify-self: center;
+  order: -1;
+}
+
+@media (min-width: 1024px) {
+  .stage {
+    order: 0;
+  }
+}
+
+@media (max-width: 1023px) {
+  .stage {
+    width: min(68vw, 22rem);
+  }
+}
+
+/* a pool of coloured light behind the piece */
+.halo {
+  position: absolute;
+  inset: 12% 8% 6%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--gem) 26%, transparent), transparent);
+  filter: blur(30px);
+  transition: background 1.2s var(--ease);
+}
+
+.piece {
+  position: absolute;
+  inset: 0;
+  isolation: isolate;
+  opacity: 0;
+  transform: translate3d(0, 18px, 0) scale(0.97);
+  transition:
+    opacity 0.9s var(--ease),
+    transform 1.2s var(--ease-out);
+}
+
+.pieceOn {
+  opacity: 1;
+  transform: none;
+}
+
+/* contact shadow */
+.piece::after {
+  content: "";
+  position: absolute;
+  left: 24%;
+  right: 24%;
+  bottom: 6.5%;
+  height: 4%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(31, 20, 24, 0.28), transparent);
+  filter: blur(5px);
+  z-index: -1;
+}
+
+.stageCaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.5rem;
+  text-align: center;
+  font-family: var(--serif);
+  font-size: 1.2rem;
+}
+
+.stageCaption em {
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.stageCaption span {
+  display: inline-block;
+  animation: caption-in 0.8s var(--ease-out) both;
+}
+
+@keyframes caption-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}

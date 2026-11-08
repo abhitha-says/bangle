@@ -1,0 +1,54 @@
+.tile {
+  position: relative;
+  display: block;
+  height: 100%;
+  min-height: 22rem;
+  overflow: hidden;
+  background: var(--stone);
+  color: var(--ivory);
+}
+
+.tile img {
+  transition: transform 2s var(--ease-out);
+}
+
+.tile:hover img {
+  transform: scale(1.04);
+}
+
+.shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(20, 6, 10, 0.72), rgba(20, 6, 10, 0.05) 55%);
+}
+
+.text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  gap: 0.5rem;
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+}
+
+.text :global(.eyebrow) {
+  color: var(--gold-soft);
+}
+
+.title {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(1.9rem, 3.4vw, 3rem);
+  line-height: 1.05;
+}
+
+.link {
+  justify-self: start;
+  margin-top: 0.5rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid currentColor;
+  font-size: 0.625rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}

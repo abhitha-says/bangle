@@ -1,0 +1,335 @@
+.hero {
+  --p: 0;
+  position: relative;
+  /* Fill exactly the visible viewport on every device. svh = the viewport
+     with mobile browser chrome showing, so nothing hides behind toolbars and
+     nothing jumps when they collapse. */
+  height: 100vh;
+  height: 100svh;
+  min-height: 320px;
+  overflow: hidden;
+  background: var(--oxblood);
+  color: var(--ivory);
+  isolation: isolate;
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform: translate3d(0, calc(var(--p) * 18%), 0) scale(calc(1 + var(--p) * 0.06));
+  transform-origin: 50% 40%;
+  will-change: transform;
+}
+
+.poster,
+.poster img,
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.poster img,
+.video {
+  object-fit: cover;
+  /* Landscape cut: subjects sit just right of centre. */
+  object-position: 56% 45%;
+}
+
+/* Portrait cut is already re-framed per shot, so centre it. */
+@media (max-aspect-ratio: 4/5) {
+  .poster img,
+  .video {
+    object-position: 50% 50%;
+  }
+}
+
+.poster img {
+  animation: poster-breathe 14s var(--ease-in-out) both;
+}
+
+@keyframes poster-breathe {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.video {
+  opacity: 0;
+  transition: opacity 1.6s var(--ease);
+}
+
+.videoOn {
+  opacity: 1;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 90% at 50% 45%, rgba(20, 6, 10, 0) 40%, rgba(20, 6, 10, 0.45) 100%),
+    linear-gradient(to top, rgba(20, 6, 10, 0.78) 0%, rgba(20, 6, 10, 0.35) 30%, rgba(20, 6, 10, 0) 58%);
+}
+
+.content {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 var(--gutter) clamp(5.5rem, 15vh, 9rem);
+  opacity: calc(1 - var(--p) * 1.6);
+  transform: translate3d(0, calc(var(--p) * -18vh), 0);
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(3rem, min(15vw, 20vh), 7.5rem);
+  line-height: 0.9;
+  letter-spacing: 0.2em;
+  /* balance the trailing tracking so the word is optically centred */
+  margin-right: -0.2em;
+  text-shadow: 0 2px 40px rgba(20, 6, 10, 0.25);
+}
+
+.letterMask {
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.04em 0 0.08em;
+}
+
+.letter {
+  display: inline-block;
+  animation: letter-in 1.6s var(--ease-out) both;
+  animation-delay: calc(0.35s + var(--i) * 0.09s);
+}
+
+@keyframes letter-in {
+  from {
+    transform: translate3d(0, 105%, 0);
+    filter: blur(6px);
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  to {
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+.tagline {
+  margin-top: clamp(0.5rem, 1.6vh, 1.25rem);
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(1.25rem, min(2.4vw, 3.6vh), 2.1rem);
+  letter-spacing: 0.02em;
+  animation: fade-up 1.4s var(--ease-out) both;
+  animation-delay: 1.1s;
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 2.25rem;
+  margin-top: clamp(1.25rem, 4vh, 2.5rem);
+  animation: fade-up 1.4s var(--ease-out) both;
+  animation-delay: 1.45s;
+}
+
+.primary {
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  background: rgba(247, 242, 234, 0.06);
+}
+
+.secondary {
+  font-size: 0.6875rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+}
+
+.footerRow {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 var(--gutter) calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  pointer-events: none;
+  animation: fade-up 1.4s var(--ease-out) both;
+  animation-delay: 1.9s;
+}
+
+.scroll {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.625rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding-left: 0.3em;
+  opacity: 0.8;
+  pointer-events: auto;
+}
+
+.scroll i {
+  position: relative;
+  width: 1px;
+  height: clamp(1.75rem, 5vh, 3rem);
+  overflow: hidden;
+  background: rgba(247, 242, 234, 0.25);
+}
+
+.scroll i::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--ivory);
+  animation: scroll-line 2.4s var(--ease-in-out) infinite;
+}
+
+@keyframes scroll-line {
+  0% {
+    transform: translateY(-100%);
+  }
+  60%,
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.toggle {
+  position: absolute;
+  right: var(--gutter);
+  bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(247, 242, 234, 0.3);
+  color: var(--ivory);
+  opacity: 0.6;
+  pointer-events: auto;
+  transition:
+    opacity 0.4s var(--ease),
+    border-color 0.4s var(--ease);
+}
+
+.toggle:hover,
+.toggle:focus-visible {
+  opacity: 1;
+  border-color: var(--ivory);
+}
+
+.toggle svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* When autoplay isn't possible, the control introduces itself. */
+.toggle[data-hint] {
+  opacity: 1;
+}
+
+.toggle[data-hint]::after {
+  content: attr(data-hint);
+  position: absolute;
+  right: calc(100% + 0.75rem);
+  white-space: nowrap;
+  font-size: 0.625rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+/* Landscape screens: an editorial lower-left composition keeps the centre of
+   the frame, where the film places the jewellery, clear of type. */
+@media (min-aspect-ratio: 1/1) and (min-width: 900px) {
+  .scrim {
+    background:
+      radial-gradient(75% 70% at 0% 100%, rgba(20, 6, 10, 0.62), rgba(20, 6, 10, 0) 70%),
+      radial-gradient(120% 90% at 50% 45%, rgba(20, 6, 10, 0) 45%, rgba(20, 6, 10, 0.4) 100%),
+      linear-gradient(to top, rgba(20, 6, 10, 0.45) 0%, rgba(20, 6, 10, 0) 35%);
+  }
+
+  .content {
+    right: auto;
+    align-items: flex-start;
+    text-align: left;
+    max-width: min(56rem, 70vw);
+    padding-bottom: clamp(3.5rem, 11vh, 7rem);
+  }
+
+  .title {
+    justify-content: flex-start;
+    margin-right: 0;
+    margin-left: -0.06em;
+    font-size: clamp(3.5rem, min(8.4vw, 15vh), 8.75rem);
+  }
+
+  .ctas {
+    justify-content: flex-start;
+  }
+
+  .footerRow {
+    justify-content: flex-end;
+    padding-right: calc(var(--gutter) + 64px);
+  }
+}
+
+/* Short landscape phones: tighten everything so it all fits in 100svh. */
+@media (max-height: 520px) and (orientation: landscape) {
+  .content {
+    padding-bottom: 3.25rem;
+  }
+
+  .ctas {
+    margin-top: 0.75rem;
+  }
+
+  .scroll {
+    display: none;
+  }
+}
+
+@media (max-width: 559px) {
+  .ctas {
+    flex-direction: column;
+    gap: 1.1rem;
+    width: 100%;
+  }
+
+  .primary {
+    width: min(100%, 20rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .media,
+  .content {
+    transform: none;
+    opacity: 1;
+  }
+}

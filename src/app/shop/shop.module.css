@@ -1,0 +1,50 @@
+.head {
+  padding: calc(var(--header-h) + clamp(2rem, 5vw, 3.5rem)) 0 clamp(2rem, 4vw, 3rem);
+}
+
+.titleRow {
+  display: grid;
+  gap: 1.25rem 4rem;
+  align-items: end;
+  margin-top: clamp(1.75rem, 4vw, 3rem);
+}
+
+@media (min-width: 900px) {
+  .titleRow {
+    grid-template-columns: 1fr minmax(18rem, 26rem);
+  }
+}
+
+.titleRow h1 em {
+  color: var(--wine);
+}
+
+.intro {
+  font-size: 0.9375rem;
+  color: var(--ink-soft);
+}
+
+.fallbackBar {
+  height: 3.5rem;
+  border-block: 1px solid var(--line);
+  margin-bottom: 4.5rem;
+}
+
+.fallbackGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(2.25rem, 4vw, 3.75rem) clamp(0.85rem, 2vw, 1.75rem);
+  padding-bottom: var(--section);
+}
+
+@media (min-width: 900px) {
+  .fallbackGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .fallbackGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
