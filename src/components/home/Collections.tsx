@@ -12,13 +12,13 @@ export function Collections() {
     <section id="collections" className={styles.section} aria-labelledby="collections-title">
       <div className={`container ${styles.head}`}>
         <Reveal>
-          <p className="eyebrow">The Collections</p>
+          <p className="eyebrow">VI — The Collection</p>
         </Reveal>
         <Reveal as="h2" id="collections-title" className="display h-lg" index={1}>
-          Three ways to <em>wear colour</em>
+          Discover the <em>art of adornment</em>
         </Reveal>
         <Reveal className="lede" index={2}>
-          One shade, a duet, or every hue at once. Each collection is a different conversation between stone and gold.
+          One shade, a duet, or every hue at once. Three collections, each a different conversation between stone and gold.
         </Reveal>
       </div>
 
@@ -61,6 +61,12 @@ export function Collections() {
           );
         })}
       </ol>
+
+      <Reveal className={styles.cta}>
+        <Link href="/shop" className="btn btn--solid">
+          Explore the Collection <ArrowRight className="arrow" />
+        </Link>
+      </Reveal>
     </section>
   );
 }

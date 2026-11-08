@@ -64,7 +64,7 @@ export function Footer() {
             <p className={styles.colTitle}>Maison</p>
             <ul>
               <li>
-                <Link href="/#maison" className="link-line">
+                <Link href="/" className="link-line">
                   Our story
                 </Link>
               </li>

@@ -48,7 +48,7 @@ const subscribeReduce = subscribeMedia("(prefers-reduced-motion: reduce)");
 
 const LETTERS = site.name.split("");
 
-export function Hero() {
+export function Hero({ suspended = false }: { suspended?: boolean } = {}) {
   const section = useRef<HTMLElement>(null);
   const video = useRef<HTMLVideoElement>(null);
   // null on the server: the poster renders first, the film is chosen on the client.
@@ -63,7 +63,7 @@ export function Hero() {
   const [choice, setChoice] = useState<"play" | "pause" | null>(null);
   /** The browser refused autoplay (e.g. iOS low-power mode). */
   const [blocked, setBlocked] = useState(false);
-  const shouldPlay = choice === "play" || (choice === null && !reduceMotion && !blocked);
+  const shouldPlay = !suspended && (choice === "play" || (choice === null && !reduceMotion && !blocked));
   const canAutoplay = !reduceMotion && !blocked;
   const visible = useRef(true);
 
@@ -198,7 +198,16 @@ export function Hero() {
       </div>
 
       <div className={styles.footerRow}>
-        <a href="#maison" className={styles.scroll} aria-label="Scroll to the story">
+        <a
+          href="#collections"
+          className={styles.scroll}
+          aria-label="Scroll into the story"
+          onClick={(e) => {
+            e.preventDefault();
+            const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            window.scrollBy({ top: window.innerHeight, behavior: reduce ? "auto" : "smooth" });
+          }}
+        >
           <span>Scroll</span>
           <i aria-hidden />
         </a>
