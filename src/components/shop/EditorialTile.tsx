@@ -6,7 +6,7 @@ import styles from "./EditorialTile.module.css";
 /** A campaign moment inside the grid, in the manner of a printed catalogue. */
 export function EditorialTile() {
   return (
-    <Link href="/#craft" className={styles.tile}>
+    <Link href="/#collections" className={styles.tile}>
       <Image
         src={IMG.quartet.src}
         alt={IMG.quartet.alt}
@@ -17,11 +17,11 @@ export function EditorialTile() {
       />
       <span className={styles.shade} aria-hidden />
       <span className={styles.text}>
-        <span className="eyebrow">The Craft</span>
+        <span className="eyebrow">The Collections</span>
         <span className={styles.title}>
           Stone, claw, bead, <em>stack.</em>
         </span>
-        <span className={styles.link}>Read the story</span>
+        <span className={styles.link}>Discover the collections</span>
       </span>
     </Link>
   );

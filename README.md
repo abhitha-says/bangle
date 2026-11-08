@@ -70,39 +70,6 @@ If a product has only one photo, the card zooms in gently with a light tilt on h
 
 Stones, colours, bead placement and proportions are untouched. On the site, the "Detail" view in the product gallery is a CSS zoom of the same photograph.
 
-## The opening story (homepage)
-
-The homepage opens with one pinned, scroll-driven story. The scroll position is the playhead, so scrolling up plays it backwards exactly.
-
-1. **The film.** Your campaign film plays under the hero copy.
-2. **Through the ring.** As you scroll, the camera pulls back through an emerald bangle, and the film is seen through its opening.
-3. **The build.** Champagne fills the ring, which lies down. Six more bangles, one from each VIIRAA colourway, drop in and stack. Each landing washes the room in its colour.
-4. **The choreography.** The stack floats, separates into a labelled exploded view, orbits on a figure-of-eight against deep wine, reassembles, and comes in close on the stones.
-5. **Onto the wrist.** The camera flies down the bore of the stack. The far ring's opening becomes a window onto the girl's wrist (a loop cut from the same film), which opens to full screen. The collection section then rises over it.
-
-The code is in `src/components/story/`:
-
-| File | Role |
-| --- | --- |
-| `bangles.ts` | The seven bangles. Stone and lacquer colours were sampled from the product photographs. |
-| `geometry.ts` | Procedural bangle built to the real construction: lacquered channel, 36 octagon-cut stones, and a gold bead on each edge at every junction. |
-| `studio.ts` | Studio environment (softboxes), lights and contact shadow. |
-| `timeline.ts` | Scene timings, colour bands and copy. Pure functions of progress, with no three.js. |
-| `choreography.ts` | Camera and bangle poses for each scene. Also pure functions of progress. |
-| `engine.ts` | The WebGL renderer. It projects the film window and labels back to the page. |
-| `Story.tsx` | The pinned stage, film layers, copy, ledger, labels and chapter rail. |
-| `StoryStatic.tsx` | A still-photograph version for reduced-motion visitors and devices without WebGL. |
-
-Quality adapts to the device:
-
-- Desktops render glass stones with refraction.
-- Phones and weaker GPUs use a lighter faceted material at a lower resolution.
-- If frames run slow, the engine steps down by itself.
-
-For testing, `/?quality=low` or `/?quality=high` forces a tier, and `/?instant` turns off scroll smoothing.
-
-The 3D bangles are a faithful *representation* built from the photographs, with the same colours, cut, bead placement and proportions. They are not scans of individual pieces. The product photographs remain the reference everywhere else on the site.
-
 ## Hero film
 
 All three files in `public/media/` come from the supplied film `VIRAA-hero-film-1080p-web-loop.mp4`.
@@ -112,7 +79,6 @@ All three files in `public/media/` come from the supplied film `VIRAA-hero-film-
 | `hero-1080.mp4` | The original, for large landscape screens |
 | `hero-720.mp4` | Smaller landscape screens, or Save-Data and slow connections |
 | `hero-portrait.mp4` | Phones and portrait tablets (aspect ratio of 4:5 or narrower) |
-| `wrist-1080.mp4`, `wrist-portrait.mp4` | The story's finale: the emerald-wrist shot from the same film, played forward then in reverse so it loops seamlessly |
 
 The portrait cut is a re-framed 810×1080 crop. Each shot is centred on its jewellery, and it pans slowly across the four-stack shot, so phones never get a blind centre crop.
 

@@ -14,7 +14,7 @@ import { useEscape, useScrollLock } from "./useScrollLock";
 const LINKS: { label: string; href: string; note: string; image: ProductImage }[] = [
   { label: "Shop", href: "/shop", note: "The full collection", image: IMG.quartet },
   { label: "Collections", href: "/#collections", note: "Ekrang · Jugalbandi · Satrang", image: IMG.amethystStyled },
-  { label: "Our Craft", href: "/#craft", note: "Stone, claw, bead, stack", image: IMG.rubyStyled },
+  { label: "Colours", href: "/#colours", note: "Ruby to sapphire, and every hue between", image: IMG.rubyStyled },
   { label: "Contact", href: "/contact", note: "Coming soon", image: IMG.emeraldLifestyle },
 ];
 

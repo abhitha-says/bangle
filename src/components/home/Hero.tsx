@@ -48,7 +48,7 @@ const subscribeReduce = subscribeMedia("(prefers-reduced-motion: reduce)");
 
 const LETTERS = site.name.split("");
 
-export function Hero({ suspended = false }: { suspended?: boolean } = {}) {
+export function Hero() {
   const section = useRef<HTMLElement>(null);
   const video = useRef<HTMLVideoElement>(null);
   // null on the server: the poster renders first, the film is chosen on the client.
@@ -63,7 +63,7 @@ export function Hero({ suspended = false }: { suspended?: boolean } = {}) {
   const [choice, setChoice] = useState<"play" | "pause" | null>(null);
   /** The browser refused autoplay (e.g. iOS low-power mode). */
   const [blocked, setBlocked] = useState(false);
-  const shouldPlay = !suspended && (choice === "play" || (choice === null && !reduceMotion && !blocked));
+  const shouldPlay = choice === "play" || (choice === null && !reduceMotion && !blocked);
   const canAutoplay = !reduceMotion && !blocked;
   const visible = useRef(true);
 
@@ -112,6 +112,26 @@ export function Hero({ suspended = false }: { suspended?: boolean } = {}) {
       document.removeEventListener("visibilitychange", onVis);
       v.pause();
     };
+  }, [tryPlay]);
+
+  // The hero is pinned while the collection rises over it: once fully
+  // covered, rest the film.
+  useEffect(() => {
+    const el = section.current;
+    const v = video.current;
+    if (!el || !v) return;
+    let covered = false;
+    const onScroll = () => {
+      const c = window.scrollY >= el.offsetHeight;
+      if (c === covered) return;
+      covered = c;
+      visible.current = !c;
+      if (c) v.pause();
+      else tryPlay();
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, [tryPlay]);
 
   // Scroll-linked depth: the film drifts and the type lifts away.
@@ -201,7 +221,7 @@ export function Hero({ suspended = false }: { suspended?: boolean } = {}) {
         <a
           href="#collections"
           className={styles.scroll}
-          aria-label="Scroll into the story"
+          aria-label="Scroll to the collection"
           onClick={(e) => {
             e.preventDefault();
             const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

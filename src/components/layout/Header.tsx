@@ -133,8 +133,8 @@ export function Header() {
 
           <div className={styles.right}>
             <nav aria-label="Secondary" className={styles.desktopNav}>
-              <Link href="/#craft" className="link-line">
-                Our Craft
+              <Link href="/#colours" className="link-line">
+                Colours
               </Link>
               <Link href="/contact" className="link-line" aria-current={isActive("/contact") ? "page" : undefined}>
                 Contact

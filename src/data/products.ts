@@ -178,7 +178,10 @@ export const products: Product[] = [
       "Gold-tone claw settings with bead accents",
       "Green inner band",
     ],
-    images: { primary: IMG.gradientStudio },
+    images: {
+      primary: IMG.gradientStudio,
+      secondary: IMG.gradientStyled,
+    },
     sellerId: "viiraa-studio",
     keywords: ["multicolour", "multicolor", "rainbow", "gradient", "teal", "phulkari", "haldi", "mehendi"],
     featured: true,

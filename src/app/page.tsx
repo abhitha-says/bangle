@@ -1,24 +1,24 @@
 import { Collections } from "@/components/home/Collections";
-import { CraftStory } from "@/components/home/CraftStory";
 import { Featured } from "@/components/home/Featured";
+import { Hero } from "@/components/home/Hero";
 import { InstagramGrid } from "@/components/home/InstagramGrid";
 import { Marquee } from "@/components/home/Marquee";
 import { ShopByColour } from "@/components/home/ShopByColour";
-import { Story } from "@/components/story/Story";
+import styles from "./home.module.css";
 
-/**
- * One continuous story: the campaign film opens into the 3D bangle sequence
- * (src/components/story), which hands over to the collection.
- */
 export default function Home() {
   return (
     <>
-      <Story />
-      <Collections />
+      {/* The film stays pinned while the collection rises over it. */}
+      <div className={styles.opening}>
+        <div className={styles.heroPin}>
+          <Hero />
+        </div>
+        <Collections />
+      </div>
       <ShopByColour />
       <Featured />
       <Marquee />
-      <CraftStory />
       <InstagramGrid />
     </>
   );

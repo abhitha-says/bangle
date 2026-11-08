@@ -61,6 +61,15 @@ export const IMG = {
     focus: "50% 40%",
     label: "Styled",
   },
+  gradientStyled: {
+    src: `${P}/jewel-gradient-styled.jpg`,
+    alt: "Phulkari: six jewel-tone bangles shading from teal to rose, standing on golden satin with baby's breath",
+    width: 1086,
+    height: 1448,
+    kind: "photo",
+    focus: "50% 50%",
+    label: "Styled",
+  },
   quartet: {
     src: `${P}/quartet-silk.jpg`,
     alt: "Four VIIRAA bangle stacks in ruby, amethyst and amber, sapphire, and peridot green on golden silk with rose petals",

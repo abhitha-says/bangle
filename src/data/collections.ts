@@ -24,7 +24,7 @@ export const collections: Collection[] = [
     meaning: "Seven colours",
     description:
       "Stones that shift from teal to lime to rose within a single bangle. Satrang is colour without hesitation, made for haldi mornings and mehendi nights.",
-    cover: IMG.gradientStudio,
+    cover: IMG.gradientStyled,
   },
 ];
 

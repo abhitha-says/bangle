@@ -48,6 +48,7 @@ export function ShopByColour() {
   return (
     <section
       ref={section}
+      id="colours"
       className={styles.section}
       style={{ "--wash": colour.wash, "--gem": colour.swatch.startsWith("#") ? colour.swatch : "#a8865a" } as CSSProperties}
       aria-labelledby="colour-title"
